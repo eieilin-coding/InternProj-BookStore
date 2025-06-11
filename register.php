@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container text-center" style="max-width: 600px">
-        <h1 class="h3 mt-y mb-3">Register</h1>
+        <h1 class="h3 mt-4 mb-3">Register</h1>
 
         <form action="_actions/create.php" method="post" class="mb-2">
             <input type="text" class="form-control mb-2" name="name" placeholder="Name" required>
@@ -18,8 +18,8 @@
             <input type="password" class="form-control mb-2" name="password" placeholder="Password" required>
             <button class="btn btn-primary w-100">Register</button>
         </form>
-         <a href="index.php">Login</a>
+
+        <a href="signIn.php">Login</a>
     </div>
-   
 </body>
 </html>

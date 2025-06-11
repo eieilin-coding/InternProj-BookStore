@@ -1,4 +1,15 @@
 <?php
+include("vendor/autoload.php");
+
+use Helpers\HTTP;
+
+
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']->role_id != 3) {
+    HTTP::redirect("/index.php", "error=unauthorized");
+    exit;
+}
+
 
 require_once 'db_config.php';
 
@@ -71,9 +82,9 @@ $conn->close();
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php"><i class="fas fa-home me-1"></i> Back to Bookstore</a>
-                    </li>
+                    <!-- <li class="nav-item"> -->
+                        <!-- <a class="nav-link" href="index.php"><i class="fas fa-home me-1"></i> Back to Bookstore</a> -->
+                    <!-- </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="_actions/logout.php"><i class="fas fa-sign-out-alt me-1"></i></i> Logout</a>
                     </li>

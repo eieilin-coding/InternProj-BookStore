@@ -8,12 +8,13 @@ use Helpers\HTTP;
 
 
 $table = new UsersTable(new MySQL);
-$table->insertUser([
+$table->insert([
     "name" => $_POST['name'],
     "email" => $_POST['email'],
-    "phone" => $_POST['phone'],
+    "password" => $_POST['password'],
     "address" => $_POST['address'],
-    
+    "phone" => $_POST['phone'],
+      
 ]);
 
-HTTP::redirect("/admin.php", "author=success");
+HTTP::redirect("/signIn.php", "register=success");

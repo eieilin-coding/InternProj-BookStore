@@ -29,21 +29,22 @@ $conn->close();
         body {
             background-color: #f8f9fa;
         }
+      
         .container {
             max-width: 600px;
             margin-top: 50px;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
+           background-color:rgb(169, 131, 196);
         }
         .form-group label {
             font-weight: bold;
         }
 
-        .div #btn {
+        div #btn {
             display: flex;
-            justify-content: right;
+            text-align: center;
         }
 
     </style>

@@ -97,11 +97,20 @@ $total_pages = ceil($total / $limit);
       <li class="nav-item">
           <button class="nav-link btn btn-dark" href="#" >Contact Us</button>
       </li>
+
+      <li class="nav-item dropdown">
+              <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+               Account
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                  <li> <a class="dropdown-item" href="/bookstore/register.php" >Register</a></li>
+                  <li> <a class="dropdown-item" href="signIn.php" >Login</a></li>
+                  <li> <a class="dropdown-item" href="/bookstore/_actions/logout.php" >Logout</a></li>
+                
+              </ul>
+        </li>
       </ul>
     </div>
-
-      <!-- <a href="admin.php" class="btn btn-outline-light me-2">Admin</a> -->
-      <a href="signIn.php" class="btn btn-outline-warning">Login</a>
     </div>
   </div>
 </nav>

@@ -31,7 +31,7 @@ include("vendor/autoload.php");
         /* body {
             background: linear-gradient(135deg,rgb(251, 196, 141),rgb(246, 145, 38));
         } */
-        body {
+        /* body {
             width: 100%;
             height: 100vh;
             background-image: linear-gradient(rgba(0,0,0,0.8),
@@ -40,14 +40,14 @@ include("vendor/autoload.php");
             background-position: center;
             padding: 10px 10%;
             color: #fff;
-        }
+        } */
         .container {
             max-width: 600px;
             margin-top: 50px;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color:rgb(85, 54, 107);
+            background-color:rgb(169, 131, 196);
         }
         .form-group label {
             font-weight: bold;
