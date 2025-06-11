@@ -1,0 +1,44 @@
+body {
+    font-family: 'Inter', sans-serif; /* A modern, clean font */
+    background-color: #f8f9fa; /* Light background for the page */
+}
+
+/* General container styling for centering and padding */
+.container {
+    max-width: 960px; /* Max width for content on larger screens */
+}
+
+/* Custom styles for the action buttons */
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    min-width: 220px; /* Ensure buttons have a minimum width */
+}
+
+.btn-lg:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Card specific styling for the dashboard */
+.card {
+    border-radius: 12px; /* More rounded corners for cards */
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    font-weight: 700;
+}
+
+/* Footer styling */
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
