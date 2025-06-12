@@ -53,6 +53,44 @@ class BooksTable
         return $result['total'] ?? 0;
     }
 
+    public function searchBooks($search, $limit, $offset)
+{
+    $search = "%$search%";
+    $stmt = $this->db->prepare("
+        SELECT books.* FROM books
+        LEFT JOIN categories ON books.category_id = categories.id
+        LEFT JOIN authors ON books.author_id = authors.id
+        WHERE books.title LIKE :search 
+            OR authors.name LIKE :search 
+            OR categories.name LIKE :search
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':search', $search, PDO::PARAM_STR);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
+public function searchBooksCount($search)
+{
+    $search = "%$search%";
+    $stmt = $this->db->prepare("
+        SELECT COUNT(*) FROM books
+        LEFT JOIN categories ON books.category_id = categories.id
+        LEFT JOIN authors ON books.author_id = authors.id
+        WHERE books.title LIKE :search 
+            OR authors.name LIKE :search 
+            OR categories.name LIKE :search
+    ");
+    $stmt->bindValue(':search', $search, PDO::PARAM_STR);
+    $stmt->execute();
+
+    return $stmt->fetchColumn();
+}
+
+
      public function delete($id)
     {
         $statement = $this->db->prepare("DELETE FROM books WHERE id=:id");

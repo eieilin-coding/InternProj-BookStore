@@ -5,6 +5,13 @@ include("vendor/autoload.php");
     use Libs\Database\CategoriesTable;
     use Libs\Database\AuthorsTable;
     use Libs\Database\BooksTable;
+    use Libs\Database\UsersTable;
+    use Helpers\Auth;
+
+    // $auth = Auth::check();
+
+    // $table = new UsersTable(new MySQL);
+    // $users = $table->all();
     
     $table = new CategoriesTable(new MySQL);
     $categories = $table->showAll();
@@ -19,9 +26,19 @@ $limit = 4;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-$books = $table->showAll($limit, $offset);
-$total = $table->totalCount();
+$search = isset($_GET['q']) ? trim($_GET['q']) : '';
+
+if ($search !== '') {
+    $books = $table->searchBooks($search, $limit, $offset);
+    $total = $table->searchBooksCount($search);
+} else {
+    $books = $table->showAll($limit, $offset);
+    $total = $table->totalCount();
+}
 $total_pages = ceil($total / $limit);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -89,14 +106,21 @@ $total_pages = ceil($total / $limit);
         </li>
       
 
-      <form class="d-flex me-2" role="search" id="search-box">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+        <form class="d-flex me-2" role="search" id="search-box" method="get" action="">
+              <input class="form-control me-2" type="search" name="q" placeholder="Search by title, author, or category" aria-label="Search" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
 
       <li class="nav-item">
           <button class="nav-link btn btn-dark" href="#" >Contact Us</button>
       </li>
+
+      <!-- <li class="nav-item">
+             <a href="profile.php" class="nav-link">
+                  <?= $auth->name ?>
+               </a>
+        </li> -->
 
       <li class="nav-item dropdown">
               <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,7 +174,11 @@ $total_pages = ceil($total / $limit);
 
 <!-- ✅ Book List -->
 <div class="container my-5">
-  <h2 class="mb-4 text-center">Latest Books</h2>
+  <!-- <h2 class="mb-4 text-center">Latest Books</h2> -->
+
+  <h2 class="mb-4 text-center">
+  <?= $search !== '' ? "Search Results for '$search'" : 'Latest Books' ?>
+  </h2>
   <div class="row">
     <?php foreach( $books as $book ): ?>
       <div class="col-sm-6 col-md-4 col-lg-3 mb-4">

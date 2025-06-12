@@ -22,7 +22,7 @@ include("vendor/autoload.php");
     <script src="js/bootstrap.bundle.min.js" defer></script>
 </head>
 <body>
-    <nav class="navbar bg-primary navbar-dark navbar-expand">
+    <nav class="navbar bg-dark navbar-dark navbar-expand">
         <div class="container">
             <a href="#" class="navbar-brand">Users</a>
             <ul class="navbar-nav">
