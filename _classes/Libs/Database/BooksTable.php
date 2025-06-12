@@ -34,9 +34,28 @@ class BooksTable
       public function showAll($limit = 10, $offset = 0)
     {
         $statement = $this->db->prepare("SELECT b.id, b.title, a.name AS author, 
-        c.name AS category, b.photo, b.file, temp_delete FROM books b
+        c.name AS category, b.photo, b.file, temp_delete FROM books b      
         LEFT JOIN authors a ON b.author_id = a.id
-        LEFT JOIN categories c ON b.category_id = c.id ORDER BY id DESC
+        LEFT JOIN categories c ON b.category_id = c.id  
+        WHERE temp_delete = 0
+        ORDER BY id DESC
+       
+        LIMIT :limit OFFSET :offset");
+        $statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+      public function showAllAdmin($limit = 10, $offset = 0)
+    {
+        $statement = $this->db->prepare("SELECT b.id, b.title, a.name AS author, 
+        c.name AS category, b.photo, b.file, temp_delete FROM books b      
+        LEFT JOIN authors a ON b.author_id = a.id
+        LEFT JOIN categories c ON b.category_id = c.id  
+        -- WHERE temp_delete = 0
+        ORDER BY id DESC
+       
         LIMIT :limit OFFSET :offset");
         $statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
         $statement->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
@@ -90,6 +109,63 @@ public function searchBooksCount($search)
     return $stmt->fetchColumn();
 }
 
+public function getBooksByCategory($category, $limit, $offset)
+{
+    $stmt = $this->db->prepare("
+        SELECT books.* FROM books
+        LEFT JOIN categories ON books.category_id = categories.id
+        WHERE categories.name = :category
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':category', $category, PDO::PARAM_STR);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
+public function getBooksByCategoryCount($category)
+{
+    $stmt = $this->db->prepare("
+        SELECT COUNT(*) FROM books
+        LEFT JOIN categories ON books.category_id = categories.id
+        WHERE categories.name = :category
+    ");
+    $stmt->bindValue(':category', $category, PDO::PARAM_STR);
+    $stmt->execute();
+
+    return $stmt->fetchColumn();
+}
+
+public function getBooksByAuthor($author, $limit, $offset)
+{
+    $stmt = $this->db->prepare("
+        SELECT books.* FROM books
+        LEFT JOIN authors ON books.author_id = authors.id
+        WHERE authors.name = :author
+        LIMIT :limit OFFSET :offset
+    ");
+    $stmt->bindValue(':author', $author, PDO::PARAM_STR);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
+public function getBooksByAuthorCount($author)
+{
+    $stmt = $this->db->prepare("
+        SELECT COUNT(*) FROM books
+        LEFT JOIN authors ON books.author_id = authors.id
+        WHERE authors.name = :author
+    ");
+    $stmt->bindValue(':author', $author, PDO::PARAM_STR);
+    $stmt->execute();
+
+    return $stmt->fetchColumn();
+}
 
      public function delete($id)
     {

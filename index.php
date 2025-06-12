@@ -5,19 +5,13 @@ include("vendor/autoload.php");
     use Libs\Database\CategoriesTable;
     use Libs\Database\AuthorsTable;
     use Libs\Database\BooksTable;
-    use Libs\Database\UsersTable;
-    use Helpers\Auth;
-
-    // $auth = Auth::check();
-
-    // $table = new UsersTable(new MySQL);
-    // $users = $table->all();
     
     $table = new CategoriesTable(new MySQL);
     $categories = $table->showAll();
 
     $table = new AuthorsTable(new MySQL);
-    $authors = $table->showAll();
+    $authors = $table->authorList();
+
 
     $table = new BooksTable(new MySQL);
     $books = $table->showAll();
@@ -26,19 +20,25 @@ $limit = 4;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
+$category = isset($_GET['category']) ? trim($_GET['category']) : '';
+$author = isset($_GET['author']) ? trim($_GET['author']) : '';
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
 
 if ($search !== '') {
     $books = $table->searchBooks($search, $limit, $offset);
     $total = $table->searchBooksCount($search);
-} else {
+} elseif ($category !== '') {
+    $books = $table->getBooksByCategory($category, $limit, $offset);
+    $total = $table->getBooksByCategoryCount($category);
+} elseif ($author !== '') {
+    $books = $table->getBooksByAuthor($author, $limit, $offset);
+    $total = $table->getBooksByAuthorCount($author);
+} 
+else {
     $books = $table->showAll($limit, $offset);
     $total = $table->totalCount();
 }
 $total_pages = ceil($total / $limit);
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +90,7 @@ $total_pages = ceil($total / $limit);
               </button>
               <ul class="dropdown-menu dropdown-menu-dark">              
                 <?php foreach($categories as $category): ?>
-                  <li> <a class="dropdown-item" herf="#" value="<?= $category->id ?>"><?= $category->name ?></a></li>
+                  <li> <a class="dropdown-item" href="?category=<?= urlencode($category->name)?>"><?= $category->name ?></a></li>
                 <?php endforeach; ?>
               </ul>
           </li>
@@ -100,7 +100,7 @@ $total_pages = ceil($total / $limit);
               </button>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <?php foreach($authors as $author): ?>
-                  <li> <a class="dropdown-item" herf="#" value="<?= $author->id ?>"><?= $author->name ?></a></li>
+                  <li> <a class="dropdown-item" href="?author=<?= urlencode($author->name)?>"><?= $author->name ?></a></li>
                 <?php endforeach; ?>
               </ul>
         </li>
@@ -115,12 +115,6 @@ $total_pages = ceil($total / $limit);
       <li class="nav-item">
           <button class="nav-link btn btn-dark" href="#" >Contact Us</button>
       </li>
-
-      <!-- <li class="nav-item">
-             <a href="profile.php" class="nav-link">
-                  <?= $auth->name ?>
-               </a>
-        </li> -->
 
       <li class="nav-item dropdown">
               <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -172,13 +166,19 @@ $total_pages = ceil($total / $limit);
   </button>
 </div>
 
-<!-- ✅ Book List -->
-<div class="container my-5">
-  <!-- <h2 class="mb-4 text-center">Latest Books</h2> -->
+<h2 class="mb-4 text-center">
+  <?php if ($author !== ''): ?>
+    Search Results for Author
+  <?php elseif ($category !== ''): ?>
+    Search Results for Category
+  <?php elseif ($search !== ''): ?>
+    Search Results for "<?= htmlspecialchars($search) ?>"
+  <?php else: ?>
+    Latest Books
+  <?php endif; ?>
+</h2>
 
-  <h2 class="mb-4 text-center">
-  <?= $search !== '' ? "Search Results for '$search'" : 'Latest Books' ?>
-  </h2>
+
   <div class="row">
     <?php foreach( $books as $book ): ?>
       <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
@@ -199,7 +199,7 @@ $total_pages = ceil($total / $limit);
     <ul class="pagination justify-content-center">
       <?php for ($i = 1; $i <= $total_pages; $i++): ?>
         <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-          <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+          <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"><?= $i ?></a>
         </li>
       <?php endfor; ?>
     </ul>

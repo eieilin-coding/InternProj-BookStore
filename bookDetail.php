@@ -70,25 +70,23 @@ $book = $result->fetch_assoc();
                 <hr>
                 <p><?= nl2br(htmlspecialchars($book['description'])) ?></p>
 
-            
-
-                <div class="d-grid gap-2 d-md-block" id="download"> 
+                <div class="d-flex justify-content-center gap-3 my-4" id="download"> 
                     <?php session_start(); ?>
                     <?php if (isset($_SESSION['user'])): ?>
-                        <a href="_admins/files/<?= htmlspecialchars($book['file']) ?>" class="btn btn-danger mt-3" download>
+                        <a href="_admins/files/<?= htmlspecialchars($book['file']) ?>" class="btn btn-danger px-4 py-2" download>
                         <i class="fa-solid fa-circle-down"></i> Download PDF
                         </a>
                     <?php else: ?>
-                        <a href="/bookstore/signIn.php" class="btn btn-danger mt-3">
+                        <a href="/bookstore/signIn.php" class="btn btn-danger px-4 py-2">
                         <i class="fa-solid fa-circle-down"></i> Download PDF
                         </a>
                     <?php endif; ?>
 
-                    <a href="index.php" class="btn btn-secondary mt-3">Back to Books</a>
+                    <a href="index.php" class="btn btn-secondary px-4 py-2">Back to Books</a>
                 </div>
 
-
             </div>
+
         </div>
     </div>
 
