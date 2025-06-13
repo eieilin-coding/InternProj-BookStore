@@ -44,7 +44,6 @@ $book = $result->fetch_assoc();
             margin-right: 5px;
             margin-top: 5px;
             }
-
         
     </style>
 </head>
@@ -74,7 +73,7 @@ $book = $result->fetch_assoc();
                     <i class="fa-solid fa-circle-down"></i> Download PDF </a>
                     <a href="index.php" class="btn btn-secondary px-4 py-2">Back to Books</a>
                 </div>
-                <p><strong>Downloads:</strong> <?= $book['download_count'] ?></p>
+                <p id="count" ><strong>Downloads:</strong> <?= $book['download_count'] ?></p>
             </div>
             
         </div>

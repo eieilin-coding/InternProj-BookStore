@@ -29,14 +29,21 @@ if (empty($password)){
  $errors['password'] = "Password is required";
 }
 
+
+$table = new UsersTable(new MySQL);
+
+
+$existingUser = $table->findByEmail($email);
+if ($existingUser) {
+  $errors['email'] = "This email is already registered.";
+}
+
 if ($errors) {
   $_SESSION['register_errors'] = $errors;
   $_SESSION['old_data'] = $_POST;
   HTTP::redirect("/register.php");
 }
 
-
-$table = new UsersTable(new MySQL);
 $table->insert([
   "name" => $name,
   "email" => $email,

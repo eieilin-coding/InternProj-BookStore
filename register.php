@@ -37,17 +37,18 @@ unset($_SESSION['register_errors'], $_SESSION['old_data']);
       </div>
     <?php endif; ?>
 
-    <form action="_actions/create.php" method="post" class="mb-2 text-start">
+    <form action="_actions/create.php" method="post" class="mb-4 text-start">
+      <!-- <form action="_actions/testCreate.php" method="post" class="mb-2 text-start"> -->
 
-      <input type="text" class="form-control mb-2" name="name" placeholder="Name *" value="<?= htmlspecialchars($old['name'] ?? '') ?>">
+      <input type="text" class="form-control mb-4" name="name" placeholder="Name *" value="<?= htmlspecialchars($old['name'] ?? '') ?>">
 
-      <input type="email" class="form-control mb-2" name="email" placeholder="Email *" value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+      <input type="email" class="form-control mb-4" name="email" placeholder="Email *" value="<?= htmlspecialchars($old['email'] ?? '') ?>">
 
-      <input type="text" class="form-control mb-2" name="phone" placeholder="Phone" value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
+      <input type="text" class="form-control mb-4" name="phone" placeholder="Phone" value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
 
-      <textarea name="address" class="form-control mb-2" placeholder="Address"><?= htmlspecialchars($old['address'] ?? '') ?></textarea>
+      <textarea name="address" class="form-control mb-4" placeholder="Address"><?= htmlspecialchars($old['address'] ?? '') ?></textarea>
 
-      <input type="password" class="form-control mb-2" name="password" placeholder="Password *">
+      <input type="password" class="form-control mb-4" name="password" placeholder="Password *">
 
       <button type="submit" class="btn btn-primary w-100">Register</button>
     </form>

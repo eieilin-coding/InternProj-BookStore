@@ -30,12 +30,18 @@ if (!file_exists($file_path)) {
     die("File not found.");
 }
 
-
 $update = $conn->prepare("UPDATE books SET download_count = download_count + 1 WHERE id = ?");
 $update->bind_param("i", $book_id);
-$update->execute();
+if (!$update->execute()) {
+    die("Failed to update download count.");
+}
+$update->close();
 
-// Serve file for download
+// Now serve the file
+if (ob_get_level()) {
+    ob_end_clean(); // Clear any existing output buffer
+}
+
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
 header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
@@ -43,8 +49,6 @@ header('Expires: 0');
 header('Cache-Control: must-revalidate');
 header('Pragma: public');
 header('Content-Length: ' . filesize($file_path));
-flush(); // Flush system output buffer
 readfile($file_path);
-
 exit();
 ?>

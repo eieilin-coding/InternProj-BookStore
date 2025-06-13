@@ -31,9 +31,9 @@
 </head>
 <body>
   
-    <div class="container text-center" style="max-width: 600px">
+  <div class="container text-center" style="max-width: 600px">
     
-<h1> <i>Welcome Back </i></h1>
+  <h1> <i>Welcome Back </i></h1>
     <section class=" text-center text-lg-start">
   <style>
     .rounded-t-5 {
@@ -59,21 +59,19 @@
       </div>
       <div class="col-lg-8">
         <div class="card-body py-5 px-md-5">
-
           <form action="_actions/login.php" method="post">
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" name="email" id="form2Example1" class="form-control" required/>
+              <input type="email" name="email" id="form2Example1" class="form-control" />
               <label class="form-label" for="form2Example1">Email address</label>
             </div>
 
             <!-- Password input -->
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" name="password" id="form2Example2" class="form-control" required/>
+              <input type="password" name="password" id="form2Example2" class="form-control" />
               <label class="form-label" for="form2Example2">Password</label>
             </div>
 
-            <!-- 2 column grid layout for inline styling -->
             <div class="row mb-4">
               <div class="col d-flex justify-content-center">
                 <!-- Checkbox -->
@@ -106,9 +104,6 @@
     </div>
   </div>
 </section>
-<!-- Section: Design Block -->
-
-        <!-- <a href="register.php">Register</a> -->
-     </div>
+</div>
 </body>
 </html>

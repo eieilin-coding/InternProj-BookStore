@@ -101,4 +101,12 @@ class UsersTable
 
         return $statement->rowCount();
     }  
+
+    public function findByEmail($email)
+{
+    $statement = $this->db->prepare("SELECT id, email FROM users WHERE email = ?");
+    $statement->execute([$email]);
+    return $statement->fetch(); // returns user or false/null if not found
+}
+
 }
