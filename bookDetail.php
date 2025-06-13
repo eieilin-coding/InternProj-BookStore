@@ -1,8 +1,6 @@
 <?php
 include("vendor/autoload.php");
 
-use Helpers\HTTP;
-// Include your database connection file
 require_once 'db_config.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -11,7 +9,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $book_id = intval($_GET['id']);
 
-// Fetch book details with author and category
 $sql = "SELECT b.*, a.name AS author_name, c.name AS category_name 
         FROM books b 
         JOIN authors a ON b.author_id = a.id 
@@ -45,6 +42,7 @@ $book = $result->fetch_assoc();
             }
             #download .btn i {
             margin-right: 5px;
+            margin-top: 5px;
             }
 
         
@@ -71,22 +69,14 @@ $book = $result->fetch_assoc();
                 <p><?= nl2br(htmlspecialchars($book['description'])) ?></p>
 
                 <div class="d-flex justify-content-center gap-3 my-4" id="download"> 
-                    <?php session_start(); ?>
-                    <?php if (isset($_SESSION['user'])): ?>
-                        <a href="_admins/files/<?= htmlspecialchars($book['file']) ?>" class="btn btn-danger px-4 py-2" download>
-                        <i class="fa-solid fa-circle-down"></i> Download PDF
-                        </a>
-                    <?php else: ?>
-                        <a href="/bookstore/signIn.php" class="btn btn-danger px-4 py-2">
-                        <i class="fa-solid fa-circle-down"></i> Download PDF
-                        </a>
-                    <?php endif; ?>
 
+                <a href="download.php?id=<?= $book['id'] ?>" class="btn btn-danger px-4 py-2">
+                    <i class="fa-solid fa-circle-down"></i> Download PDF </a>
                     <a href="index.php" class="btn btn-secondary px-4 py-2">Back to Books</a>
                 </div>
-
+                <p><strong>Downloads:</strong> <?= $book['download_count'] ?></p>
             </div>
-
+            
         </div>
     </div>
 

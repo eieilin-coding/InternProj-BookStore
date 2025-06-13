@@ -37,7 +37,7 @@ unset($_SESSION['register_errors'], $_SESSION['old_data']);
       </div>
     <?php endif; ?>
 
-    <form action="_actions/createValid.php" method="post" class="mb-2 text-start">
+    <form action="_actions/create.php" method="post" class="mb-2 text-start">
 
       <input type="text" class="form-control mb-2" name="name" placeholder="Name *" value="<?= htmlspecialchars($old['name'] ?? '') ?>">
 

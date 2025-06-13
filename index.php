@@ -1,16 +1,22 @@
 <?php
 include("vendor/autoload.php");
 
+session_start();
+
     use Libs\Database\MySQL;
     use Libs\Database\CategoriesTable;
     use Libs\Database\AuthorsTable;
     use Libs\Database\BooksTable;
+    use Libs\Database\UsersTable;
     
     $table = new CategoriesTable(new MySQL);
     $categories = $table->showAll();
 
     $table = new AuthorsTable(new MySQL);
     $authors = $table->authorList();
+
+    $table = new UsersTable(new MySQL);
+    $users = $table->all();
 
 
     $table = new BooksTable(new MySQL);
@@ -115,17 +121,22 @@ $total_pages = ceil($total / $limit);
       <li class="nav-item">
           <button class="nav-link btn btn-dark" href="#" >Contact Us</button>
       </li>
-
       <li class="nav-item dropdown">
-              <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                Account
-              </button>
-              <ul class="dropdown-menu dropdown-menu-dark">
-                  <li> <a class="dropdown-item" href="/bookstore/register.php" >Register</a></li>
-                  <li> <a class="dropdown-item" href="signIn.php" >Login</a></li>
-                  <li> <a class="dropdown-item" href="/bookstore/_actions/logout.php" >Logout</a></li>
-                
-              </ul>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-dark">   
+            <?php if (isset($_SESSION['user']) AND $_SESSION['user']->role_id >= 2): ?>
+              <li><a class="dropdown-item" href="/bookstore/admin.php">Admin</a></li>
+              <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
+             <?php elseif (isset($_SESSION['user']) AND $_SESSION['user']->role_id == 1 ): ?>
+              <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
+            <?php else: ?>
+              <li><a class="dropdown-item" href="/bookstore/register.php">Register</a></li>
+              <li><a class="dropdown-item" href="signIn.php">Login</a></li>
+            <?php endif; ?>
+          </ul>
         </li>
       </ul>
     </div>
@@ -164,19 +175,11 @@ $total_pages = ceil($total / $limit);
   <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
     <span class="carousel-control-next-icon"></span>
   </button>
-</div>
+</div><br>
 
-<h2 class="mb-4 text-center">
-  <?php if ($author !== ''): ?>
-    Search Results for Author
-  <?php elseif ($category !== ''): ?>
-    Search Results for Category
-  <?php elseif ($search !== ''): ?>
-    Search Results for "<?= htmlspecialchars($search) ?>"
-  <?php else: ?>
-    Latest Books
-  <?php endif; ?>
-</h2>
+<h4 class="mb-4 text-center">
+  Available Books
+</h4>
 
 
   <div class="row">

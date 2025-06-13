@@ -29,8 +29,7 @@ class BooksTable
                 exit();
             }
     } 
-    
-
+ 
       public function showAll($limit = 10, $offset = 0)
     {
         $statement = $this->db->prepare("SELECT b.id, b.title, a.name AS author, 
@@ -195,24 +194,6 @@ public function getBooksByAuthorCount($author)
             exit();
         }
     }
-// This function is not working
-    // public function detail($id){
-    //     try{
-    //         $statement = $this->db->prepare("SELECT b.*, a.name AS author_name, c.name AS category_name 
-    //     FROM books b 
-    //     JOIN authors a ON b.author_id = a.id 
-    //     JOIN categories c ON b.category_id = c.id 
-    //     WHERE b.id = ?");
-        
-    //     $statement->bindParam("i", $id);
-    //     $statement->execute();
-    //     $result = $statement->get_result();
-
-    //     }catch(PDOException $e){
-    //         echo $e->getMessage();
-    //         exit(); 
-    //     }
-    // }
 
      public function update($id, $author_id, $category_id, $title, $publisher,
       $published_date, $description, $photo, $file)
