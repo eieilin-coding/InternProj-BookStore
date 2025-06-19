@@ -11,7 +11,6 @@ $email = $_POST['email'];
 $phone = $_POST['phone'];
 $address = $_POST['address'];
 
-
 $table = new AuthorsTable(new MySQL);
 $table->update($id, $name, $email, $phone, $address);
 

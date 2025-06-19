@@ -51,4 +51,3 @@ header('Pragma: public');
 header('Content-Length: ' . filesize($file_path));
 readfile($file_path);
 exit();
-?>

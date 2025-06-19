@@ -6,7 +6,8 @@ use Libs\Database\MySQL;
 use Libs\Database\UsersTable;
 use Helpers\HTTP;
 
-function test_input($data) {
+function test_input($data)
+{
   return htmlspecialchars(stripslashes(trim($data)));
 }
 
@@ -25,8 +26,8 @@ if (empty($_POST['email'])) {
 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $errors['email'] = "Invalid email format";
 }
-if (empty($password)){
- $errors['password'] = "Password is required";
+if (empty($password)) {
+  $errors['password'] = "Password is required";
 }
 
 

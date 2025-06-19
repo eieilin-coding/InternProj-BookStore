@@ -1,9 +1,11 @@
 <?php
 
 namespace Libs\Database;
+
 use PDO;
 
 use PDOException;
+
 class CategoriesTable
 {
     private $db;
@@ -12,26 +14,25 @@ class CategoriesTable
         $this->db = $db->connect();
     }
 
-     public function insertCategories($data)
+    public function insertCategories($data)
     {
-        try{
-                $statement = $this->db->prepare(
-                    "INSERT INTO categories (name, created_at) 
+        try {
+            $statement = $this->db->prepare(
+                "INSERT INTO categories (name, created_at) 
                     VALUE (:name, NOW())"
-                );
-                $statement->execute($data);
-                return $this->db->lastInsertId();
-            } 
-            catch(PDOException $e){
-                echo $e->getMessage();
-                exit();
-            }
-    }  
-    
-     public function showAll()
+            );
+            $statement->execute($data);
+            return $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            exit();
+        }
+    }
+
+    public function showAll()
     {
-            $statement = $this->db->query("SELECT * FROM categories ORDER BY name");
-            return $statement->fetchAll();
+        $statement = $this->db->query("SELECT * FROM categories ORDER BY name");
+        return $statement->fetchAll();
     }
 
     public function delete($id)
@@ -42,31 +43,29 @@ class CategoriesTable
         return $statement->rowCount();
     }
 
-     public function find($id)
+    public function find($id)
     {
-      // echo $id; 
+        // echo $id; 
         try {
             $statement = $this->db->prepare("SELECT * FROM categories WHERE id = :id");
             $statement->execute(['id' => $id]);
-           // return $statement->fetch(); 
-           return $statement->fetch(PDO::FETCH_ASSOC);
-        } catch(PDOException $e){
+            // return $statement->fetch(); 
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             echo $e->getMessage();
             exit();
         }
     }
 
-     public function update($id, $name)
+    public function update($id, $name)
     {
         try {
             $statement = $this->db->prepare("UPDATE categories SET name=:name WHERE id = :id");
-            $statement->execute(['id' => $id, 'name' => $name ]);
-            return $statement->rowCount(); 
-        } catch(PDOException $e){
+            $statement->execute(['id' => $id, 'name' => $name]);
+            return $statement->rowCount();
+        } catch (PDOException $e) {
             echo $e->getMessage();
             exit();
         }
     }
-
-
 }

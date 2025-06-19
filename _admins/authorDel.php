@@ -11,4 +11,3 @@ $table = new AuthorsTable(new MySQL);
 $table->delete($id);
 
 HTTP::redirect("../authorAll.php");
-

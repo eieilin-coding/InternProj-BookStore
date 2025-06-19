@@ -15,12 +15,11 @@ class MySQL
     private $dbname;
 
     public function __construct(
-        $dbhost="localhost",
-        $dbuser="root",
-        $dbpass="",
-        $dbname="bookstore",
-    )
-    {
+        $dbhost = "localhost",
+        $dbuser = "root",
+        $dbpass = "",
+        $dbname = "bookstore",
+    ) {
         $this->dbhost = $dbhost;
         $this->dbuser = $dbuser;
         $this->dbpass = $dbpass;
@@ -29,8 +28,8 @@ class MySQL
 
     public function connect()
     {
-        try{
-            $this->db = new PDO( 
+        try {
+            $this->db = new PDO(
                 "mysql:dbhost=$this->dbhost;dbname=$this->dbname",
                 $this->dbuser,
                 $this->dbpass,
@@ -40,7 +39,7 @@ class MySQL
                 ],
             );
             return $this->db;
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();
             exit();
         }

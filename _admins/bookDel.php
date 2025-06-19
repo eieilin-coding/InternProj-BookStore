@@ -11,4 +11,3 @@ $table = new BooksTable(new MySQL);
 $table->delete($id);
 
 HTTP::redirect("../bookAll.php");
-

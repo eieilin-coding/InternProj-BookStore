@@ -1,109 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <style>
-      body{
-          width: 100%;
-          min-height: 100vh;
-          background: linear-gradient(135deg,rgb(94, 20, 213), #90bafc);
-          color:#fff;
-          padding: 10px;
-          }
 
-         .card {
-        width: 600px;
-        height: 500px;
-        background:rgb(129, 123, 245);
-        color: #fff;
-        font-size: 15px;
-        border: 0;
-        outline: 0;
-        padding: 20px;
-        border-radius: 10px;
-        resize: none;
-        margin-bottom: 30px;
-      }
-    </style>
-</head>
-<body>
-  
-  <div class="container text-center" style="max-width: 600px">
-    
-  <h1> <i>Welcome Back </i></h1>
-    <section class=" text-center text-lg-start">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="js/bootstrap.bundle.min.js" defer></script>
   <style>
-    .rounded-t-5 {
-      border-top-left-radius: 0.5rem;
-      border-top-right-radius: 0.5rem;
+    .navbar {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    @media (min-width: 992px) {
-      .rounded-tr-lg-0 {
-        border-top-right-radius: 0;
-      }
+    body {
+      width: 100%;
+      min-height: 100vh;
+      color: #fff;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('_admins/photos/read1.jpg');
+      background-size: cover;
+      background-position: center;
+    }
 
-      .rounded-bl-lg-5 {
-        border-bottom-left-radius: 0.5rem;
-      }
+    .card {
+      width: 600px;
+      height: 450px;
+      background: #f1f1f1;
+      color: black;
+      font-size: 15px;
+      border: 0;
+      outline: 0;
+      padding: 20px;
+      border-radius: 10px;
+      resize: none;
+      margin-bottom: 30px;
     }
   </style>
-  <div class="card mb-3">
-    <div class="row g-0 d-flex align-items-center">
-      <div class="col-lg-4 d-none d-lg-flex">
-        <img src="_admins/photos/book1.jpg" alt="Trendy Pants and Shoes"
-          class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5" />
-      </div>
-      <div class="col-lg-8">
-        <div class="card-body py-5 px-md-5">
-          <form action="_actions/login.php" method="post">
-            <!-- Email input -->
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" name="email" id="form2Example1" class="form-control" />
-              <label class="form-label" for="form2Example1">Email address</label>
-            </div>
+</head>
 
-            <!-- Password input -->
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" name="password" id="form2Example2" class="form-control" />
-              <label class="form-label" for="form2Example2">Password</label>
-            </div>
-
-            <div class="row mb-4">
-              <div class="col d-flex justify-content-center">
-                <!-- Checkbox -->
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                  <label class="form-check-label" for="form2Example31"> Remember me </label>
-                </div>
-              </div>
-
-              <div class="col">
-                <!-- Simple link -->
-                <b><a href="#">Forgot password?</a></b>
-              </div>
-            </div>
-
-            <!-- Submit button -->
-             <div class="row mb-4">
-              <div class="col">
-            <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
-            </div>
-            <div class="col">
-                
-                <b><a href="register.php">Have not register yet?</a></b>
-              </div>
-            </div>
-          </form>
-
-        </div>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">📚 Bookstore</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.php"><i class="fas fa-home me-1"></i> Home </a>
+          </li>
+        </ul>
       </div>
     </div>
+  </nav>
+
+  <div class="container text-center" style="max-width: 600px">
+
+    <h3 class="text-white my-3">Please Sign in </h3>
+    <section class=" text-center text-lg-start">
+      <style>
+        .rounded-t-5 {
+          border-top-left-radius: 0.5rem;
+          border-top-right-radius: 0.5rem;
+        }
+
+        @media (min-width: 992px) {
+          .rounded-tr-lg-0 {
+            border-top-right-radius: 0;
+          }
+
+          .rounded-bl-lg-5 {
+            border-bottom-left-radius: 0.5rem;
+          }
+        }
+      </style>
+      <div class="card mb-3">
+        <div class="row g-0 d-flex align-items-center">
+          <div class="col-lg-4 d-none d-lg-flex">
+            <img src="_admins/photos/book1.jpg" alt="Trendy Pants and Shoes"
+              class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5" />
+          </div>
+          <div class="col-lg-8">
+            <div class="card-body py-5 px-md-5">
+              <form action="_actions/login.php" method="post">
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="email" name="email" id="form2Example1" class="form-control" />
+                  <label class="form-label" for="form2Example1">Email address</label>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="password" name="password" id="form2Example2" class="form-control" />
+                  <label class="form-label" for="form2Example2">Password</label>
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col d-flex justify-content-center">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                      <label class="form-check-label" for="form2Example31"> Remember me </label>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <!-- Simple link -->
+                    <a href="#">Forgot password?</a>
+                  </div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="row mb-4">
+                  <div class="col">
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+                  </div>
+                  <div class="col">
+                    <a href="register.php">Have not register yet?</a>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-</section>
-</div>
 </body>
+
 </html>
