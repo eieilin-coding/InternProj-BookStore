@@ -77,9 +77,9 @@ if (
     }
 
     if ($statement->execute()) {
-        HTTP::redirect("/bookAll.php", "info=success");
+        HTTP::redirect("/testBookAll.php", "info=success");
     } else {
-        HTTP::redirect("/bookAll.php", "info=error");
+        HTTP::redirect("/testBookAll.php", "info=error");
     }
 } else {
     die("Execute failed: (" . $statement->errno . ") " . $statement->error);

@@ -10,5 +10,5 @@ $id = $_GET['id'];
 $table = new CategoriesTable(new MySQL);
 $table->delete($id);
 
-HTTP::redirect("../categoryAll.php");
+HTTP::redirect("../testCategoryAll.php");
 

@@ -62,13 +62,35 @@ $total_pages = ceil($total / $limit);
         .form #search-box {
             text-align: center;
         }
+
+        .book-card-img {
+            width: 100%;
+            height: 350px;
+            /* object-fit: cover; */
+        } 
+
+        @media only screen and (max-width:600px) {
+            .book-card-img{
+                height :400px;
+                width: 100%;
+            }
+        }
+
+         
+        /*
+        @media (min-width: 992px) {
+            .book-card-img {
+                height: 350px;
+                object-fit: cover;
+            } 
+        } */
     </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center justify-content-start" href="#">
                 <strong>📚 BookStore</strong>
             </a>
 
@@ -77,46 +99,51 @@ $total_pages = ceil($total / $limit);
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left-aligned nav items -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Categories
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown" style="max-height: 180px; overflow-y: auto;">
+                        <ul class="dropdown-menu dropdown-menu-dark" style="max-height: 200px; overflow-y: auto;">
                             <?php foreach ($categories as $category): ?>
-                                <li> <a class="dropdown-item" href="?category=<?= urlencode($category->name) ?>"><?= $category->name ?></a></li>
+                                <li><a class="dropdown-item" href="?category=<?= urlencode($category->name) ?>"><?= $category->name ?></a></li>
                             <?php endforeach; ?>
                         </ul>
                     </li>
+
                     <li class="nav-item dropdown">
                         <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Authors
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="authorsDropdown" style="max-height: 180px; overflow-y: auto;">
+                        <ul class="dropdown-menu dropdown-menu-dark" style="max-height: 250px; overflow-y: auto;">
                             <?php foreach ($authors as $author): ?>
-                                <li>
-                                    <a class="dropdown-item" href="?author=<?= urlencode($author->name) ?>">
-                                        <?= htmlspecialchars($author->name) ?>
-                                    </a>
-                                </li>
+                                <li><a class="dropdown-item" href="?author=<?= urlencode($author->name) ?>"><?= htmlspecialchars($author->name) ?></a></li>
                             <?php endforeach; ?>
                         </ul>
                     </li>
-                    <form class="d-flex me-2" role="search" id="search-box" method="get" action="">
-                        <input class="form-control me-2" type="search" name="q" placeholder="Search book" aria-label="Search" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                </ul>
+
+                <!-- Right-aligned nav items -->
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <form class="d-flex me-2" role="search" id="search-box" method="get" action="">
+                            <input class="form-control me-2" type="search" name="q" placeholder="Search book" aria-label="Search" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </li>
+
                     <li class="nav-item">
                         <button class="nav-link btn btn-dark" href="#">Contact Us</button>
                     </li>
+
                     <li class="nav-item dropdown">
                         <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Account
                         </button>
-
                         <ul class="dropdown-menu dropdown-menu-dark">
                             <?php if (isset($_SESSION['user']) and $_SESSION['user']->role_id >= 2): ?>
-                                <li><a class="dropdown-item" href="/bookstore/admin.php">Admin</a></li>
+                                <li><a class="dropdown-item" href="/bookstore/testAdmin.php">Admin</a></li>
                                 <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
                             <?php elseif (isset($_SESSION['user']) and $_SESSION['user']->role_id == 1): ?>
                                 <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
@@ -129,8 +156,8 @@ $total_pages = ceil($total / $limit);
                 </ul>
             </div>
         </div>
-        </div>
     </nav>
+
     <div class="container-fluid py-2">
         <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -174,11 +201,11 @@ $total_pages = ceil($total / $limit);
             <?php foreach ($books as $book): ?>
                 <div class="col-12 col-md-6 col-lg-3 mb-4">
                     <div class="card h-100 shadow-sm d-flex flex-column">
-                        <img src="_admins/photos/<?= htmlspecialchars($book->photo) ?>" class="card-img-top"
-                            style="max-width: 100%,height:200px;" class="img-fluid rounded shadow" loading="lazy" alt="<?= htmlspecialchars($book->title) ?>">
+                        <img src="_admins/photos/<?= htmlspecialchars($book->photo) ?>" class=" book-card-img"
+                            style="max-width: 100%,height:350px;" class="img-fluid rounded shadow" loading="lazy" alt="<?= htmlspecialchars($book->title) ?>">
                         <div class="card-body d-flex flex-column justify-content-center">
                             <h6 class="card-title"><?= htmlspecialchars($book->title) ?></h6>
-                            <a href="books/bookDetail.php?id=<?= $book->id ?>" class="btn btn-outline-primary mt-auto" style="width: 115px;">View Details</a>
+                            <a href="bookDetail.php?id=<?= $book->id ?>" class="btn btn-outline-primary mt-auto" style="width: 115px;">View Details</a>
                         </div>
                     </div>
                 </div>

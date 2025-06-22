@@ -10,4 +10,4 @@ $id = $_GET['id'];
 $table = new BooksTable(new MySQL);
 $table->hideBook($id);
 
-HTTP::redirect("/bookAll.php");
+HTTP::redirect("/testBookAll.php");

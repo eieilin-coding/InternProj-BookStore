@@ -68,4 +68,19 @@ class CategoriesTable
             exit();
         }
     }
+     public function showCategory($id)
+    {
+        $statement = $this->db->prepare("UPDATE categories SET temp_delete=0 WHERE id=:id");
+        $statement->execute(['id' => $id]);
+
+        return $statement->rowCount();
+    }
+
+    public function hideCategory($id)
+    {
+        $statement = $this->db->prepare("UPDATE categories SET temp_delete=1 WHERE id=:id");
+        $statement->execute(['id' => $id]);
+
+        return $statement->rowCount();
+    }
 }

@@ -11,4 +11,4 @@ $role = $_GET['role'];
 $table = new UsersTable(new MySQL);
 $table->changeRole($id, $role);
 
-HTTP::redirect("/userAll.php");
+HTTP::redirect("/testUserAll.php");

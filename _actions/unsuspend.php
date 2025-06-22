@@ -10,4 +10,4 @@ $id = $_GET['id'];
 $table = new UsersTable(new MySQL);
 $table->unsuspend($id);
 
-HTTP::redirect("/userAll.php");
+HTTP::redirect("/testUserAll.php");

@@ -20,7 +20,7 @@ if ($user) {
     $_SESSION['user'] = $user;
 
     if ($user->role_id >= 2) {
-        HTTP::redirect("/admin.php", "login=success");
+        HTTP::redirect("/testAdmin.php", "login=success");
     } else {
         HTTP::redirect("/index.php", "login=success");
     }

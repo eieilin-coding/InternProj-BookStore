@@ -79,70 +79,75 @@ $total_pages = ceil($total / $limit);
 
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#">
-        <i class="fas fa-book-open me-2"></i> <strong>📚 BookStore</strong>
-      </a>
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center justify-content-start" href="#">
+            <strong>📚 BookStore</strong>
+        </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Categories
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoryDropdown" style="max-height: 180px; overflow-y: auto;">
-              <?php foreach ($categories as $category): ?>
-                <li> <a class="dropdown-item" href="?category=<?= urlencode($category->name) ?>"><?= $category->name ?></a></li>
-              <?php endforeach; ?>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Authors
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="authorsDropdown" style="max-height: 180px; overflow-y: auto;">
-              <?php foreach ($authors as $author): ?>
-                <li>
-                  <a class="dropdown-item" href="?author=<?= urlencode($author->name) ?>">
-                    <?= htmlspecialchars($author->name) ?>
-                  </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Left-aligned nav items -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categories
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" style="max-height: 180px; overflow-y: auto;">
+                        <?php foreach ($categories as $category): ?>
+                            <li><a class="dropdown-item" href="?category=<?= urlencode($category->name) ?>"><?= $category->name ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
                 </li>
-              <?php endforeach; ?>
-            </ul>
-          </li>
-          <form class="d-flex me-2" role="search" id="search-box" method="get" action="">
-            <input class="form-control me-2" type="search" name="q" placeholder="Search book" aria-label="Search" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-          <li class="nav-item">
-            <button class="nav-link btn btn-dark" href="#">Contact Us</button>
-          </li>
-          <li class="nav-item dropdown">
-            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              Account
-            </button>
 
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <?php if (isset($_SESSION['user']) and $_SESSION['user']->role_id >= 2): ?>
-                <li><a class="dropdown-item" href="/bookstore/admin.php">Admin</a></li>
-                <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
-              <?php elseif (isset($_SESSION['user']) and $_SESSION['user']->role_id == 1): ?>
-                <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
-              <?php else: ?>
-                <li><a class="dropdown-item" href="/bookstore/register.php">Register</a></li>
-                <li><a class="dropdown-item" href="signIn.php">Login</a></li>
-              <?php endif; ?>
+                <li class="nav-item dropdown">
+                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Authors
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" style="max-height: 180px; overflow-y: auto;">
+                        <?php foreach ($authors as $author): ?>
+                            <li><a class="dropdown-item" href="?author=<?= urlencode($author->name) ?>"><?= htmlspecialchars($author->name) ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
             </ul>
-          </li>
-        </ul>
-      </div>
+
+            <!-- Right-aligned nav items -->
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <form class="d-flex me-2" role="search" id="search-box" method="get" action="">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search book" aria-label="Search" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link btn btn-dark" href="#">Contact Us</button>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <?php if (isset($_SESSION['user']) and $_SESSION['user']->role_id >= 2): ?>
+                            <li><a class="dropdown-item" href="/bookstore/testAdmin.php">Admin</a></li>
+                            <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
+                        <?php elseif (isset($_SESSION['user']) and $_SESSION['user']->role_id == 1): ?>
+                            <li><a class="dropdown-item" href="/bookstore/_actions/logout.php">Logout</a></li>
+                        <?php else: ?>
+                            <li><a class="dropdown-item" href="/bookstore/register.php">Register</a></li>
+                            <li><a class="dropdown-item" href="signIn.php">Login</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
-    </div>
-  </nav>
+</nav>
+
 
   <div class="container-fluid py-2">
     <div class="container" style="height:400px">

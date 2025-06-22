@@ -11,4 +11,4 @@ $name = $_POST['name'];
 $table = new CategoriesTable(new MySQL);
 $table->update($id, $name);
 
-HTTP::redirect("/categoryAll.php");
+HTTP::redirect("/testCategoryAll.php");

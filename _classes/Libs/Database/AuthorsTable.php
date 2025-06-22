@@ -92,4 +92,20 @@ class AuthorsTable
             exit();
         }
     }
+
+     public function showAuthor($id)
+    {
+        $statement = $this->db->prepare("UPDATE authors SET temp_delete=0 WHERE id=:id");
+        $statement->execute(['id' => $id]);
+
+        return $statement->rowCount();
+    }
+
+    public function hideAuthor($id)
+    {
+        $statement = $this->db->prepare("UPDATE authors SET temp_delete=1 WHERE id=:id");
+        $statement->execute(['id' => $id]);
+
+        return $statement->rowCount();
+    }
 }

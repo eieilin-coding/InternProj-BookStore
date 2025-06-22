@@ -31,10 +31,27 @@ class BooksTable
     public function showAll($limit = 10, $offset = 0)
     {
         $statement = $this->db->prepare("SELECT b.id, b.title, a.name AS author, 
-        c.name AS category, b.photo, b.file, temp_delete FROM books b      
+        c.name AS category, b.photo, b.file, b.temp_delete FROM books b      
         LEFT JOIN authors a ON b.author_id = a.id
         LEFT JOIN categories c ON b.category_id = c.id  
-        WHERE temp_delete = 0
+        WHERE b.temp_delete = 0 AND a.temp_delete = 0 AND c.temp_delete = 0
+        ORDER BY id DESC
+       
+        LIMIT :limit OFFSET :offset");
+        $statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function showAllAdmin($limit = 10, $offset = 0)
+    {
+        $statement = $this->db->prepare("SELECT b.id, b.title, a.name AS author, 
+        c.name AS category, b.photo, b.file, b.temp_delete FROM books b      
+        LEFT JOIN authors a ON b.author_id = a.id
+        LEFT JOIN categories c ON b.category_id = c.id  
+        -- WHERE temp_delete = 0
         ORDER BY id DESC
        
         LIMIT :limit OFFSET :offset");
@@ -48,7 +65,10 @@ class BooksTable
     // Method to get total record count
     public function totalCount()
     {
-        $statement = $this->db->query("SELECT COUNT(*) as total FROM books");
+        $statement = $this->db->query("SELECT COUNT(*) as total FROM books b 
+        LEFT JOIN authors a ON b.author_id = a.id
+        LEFT JOIN categories c ON b.category_id = c.id  
+        WHERE b.temp_delete = 0 AND a.temp_delete = 0 AND c.temp_delete = 0");
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['total'] ?? 0;
     }

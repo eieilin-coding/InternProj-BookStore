@@ -8,6 +8,6 @@ use Helpers\HTTP;
 $id = $_GET['id'];
 
 $table = new AuthorsTable(new MySQL);
-$table->delete($id);
+$table->showAuthor($id);
 
-HTTP::redirect("../testAuthorAll.php");
+HTTP::redirect("/testAuthorAll.php");

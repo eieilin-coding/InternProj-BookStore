@@ -39,4 +39,4 @@ $file = $file_name;
 $table = new BooksTable(new MySQL);
 $table->update($id, $author_id, $category_id, $title, $publisher, $published_date, $description, $photo, $file);
 
-HTTP::redirect("/bookAll.php");
+HTTP::redirect("/testBookAll.php");

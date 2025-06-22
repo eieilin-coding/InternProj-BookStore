@@ -15,4 +15,4 @@ $table->insertAuthor([
 
 ]);
 
-HTTP::redirect("/authorAll.php", "author=success");
+HTTP::redirect("/testAuthorAll.php", "author=success");

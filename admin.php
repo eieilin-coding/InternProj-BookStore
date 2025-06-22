@@ -102,13 +102,13 @@ $conn->close();
                         <a href="userAll.php" class="nav-link"><i class="fas fa-users me-2"></i> <span>Users</span></a>
                     </li>
                     <li>
-                        <a href="bookAll.php" class="nav-link"><i class="fas fa-book me-2"></i> <span>Books</span></a>
+                        <a href="/books/bookAll.php" class="nav-link"><i class="fas fa-book me-2"></i> <span>Books</span></a>
                     </li>
                     <li>
-                        <a href="categoryAll.php" class="nav-link"><i class="fas fa-list-alt me-2"></i> <span>Categories</span></a>
+                        <a href="/categories/categoryAll.php" class="nav-link"><i class="fas fa-list-alt me-2"></i> <span>Categories</span></a>
                     </li>
                     <li>
-                        <a href="authorAll.php" class="nav-link"><i class="fas fa-user-tie me-2"></i> <span>Authors</span></a>
+                        <a href="/authors/authorAll.php" class="nav-link"><i class="fas fa-user-tie me-2"></i> <span>Authors</span></a>
                     </li>
                 </ul>
             </nav>
