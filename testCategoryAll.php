@@ -10,13 +10,21 @@ use Libs\Database\CategoriesTable;
 $table = new CategoriesTable(new MySQL);
 $categories = $table->showAll();
 
+session_start();
+$errors = $_SESSION['category_errors'] ?? [];
+$old = $_SESSION['old_data'] ?? [];
+unset($_SESSION['category_errors'], $_SESSION['old_data']);
+
 ?>
 <!doctype html>
 <html lang="en">
 <!--begin::Head-->
+<link rel="stylesheet" href="css/style2.css">
 
 <head>
-
+  <style>
+    
+  </style>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -144,23 +152,40 @@ $categories = $table->showAll();
         <!-- <div class="container-fluid"> -->
         <!-- Info boxes -->
         <div class="container mt-0">
-          <a href="testCategory.php" class="btn btn-sm btn-outline-success mb-2">Create</a>
+          <?php if (!empty($errors)): ?>
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              <?php foreach ($errors as $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
+          <!-- Changed the Create button to trigger modal -->
+          <button type="button" class="btn btn-sm btn-outline-success mb-2"
+            data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+            Create
+          </button>
           <div class="table-responsive">
             <table class="table table-striped table-bordered">
               <tr>
                 <th>ID</th>
                 <th>Categories</th>
                 <th>Action</th>
-
               </tr>
               <?php foreach ($categories as $category): ?>
-                <tr >
+                <tr>
                   <td><?= $category->id ?></td>
                   <td><?= $category->name ?></td>
                   <td>
                     <div class="btn-group">
-                      <a href="testCategoryUpdF.php?id=<?= $category->id ?>"
-                        class="btn btn-sm btn-outline-primary">Update</a>
+                      <!-- Update Button (triggers modal) -->
+                      <button type="button" class="btn btn-sm btn-outline-primary update-btn"
+                        data-bs-toggle="modal" data-bs-target="#updateCategoryModal"
+                        data-id="<?= $category->id ?>"
+                        data-name="<?= htmlspecialchars($category->name) ?>">
+                        Update
+                      </button>
                       <?php if ($category->temp_delete): ?>
                         <a href="_admins/showCategory.php?id=<?= $category->id ?>" class="btn btn-sm btn-outline-warning" onclick="return confirm('Are you sure?')">SoftDel</a>
                       <?php else: ?>
@@ -169,19 +194,85 @@ $categories = $table->showAll();
                       <a href="_admins/categoryDel.php?id=<?= $category->id ?>"
                         class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
                     </div>
-
+                  </td>
                 </tr>
               <?php endforeach ?>
             </table>
           </div>
         </div>
-
       </div>
       <!--end::Container-->
   </div>
   <!--end::App Content-->
   </main>
   <!--end::App Main-->
+
+  <!-- Create Category Modal -->
+  <div class="modal" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createCategoryModalLabel">Create New Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="_admins/categoryCreate.php" method="POST">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="categoryName" class="form-label">Category Name</label>
+              <input type="text" class="form-control" id="categoryName" name="name" placeholder="Enter category name">
+            </div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Update Category Modal -->
+  <div class="modal " id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateCategoryModalLabel">Update Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="_admins/categoryUpd.php" method="POST">
+          <div class="modal-body">
+            <input type="hidden" id="updateCategoryId" name="id">
+            <div class="mb-3">
+              <label for="updateCategoryName" class="form-label">Category Name</label>
+              <input type="text" class="form-control" id="updateCategoryName" name="name">
+            </div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript to populate update modal -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const updateButtons = document.querySelectorAll('.update-btn');
+
+      updateButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          const name = this.getAttribute('data-name');
+
+          document.getElementById('updateCategoryId').value = id;
+          document.getElementById('updateCategoryName').value = name;
+        });
+      });
+    });
+  </script>
   <?php include("footer.php"); ?>
 </body>
 <!--end::Body-->

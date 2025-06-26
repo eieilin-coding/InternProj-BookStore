@@ -191,6 +191,7 @@ if (!$category) {
     <!--end::App Content-->
     </main>
     <!--end::App Main-->
+    
     <?php include("footer.php"); ?>
 </body>
 <!--end::Body-->

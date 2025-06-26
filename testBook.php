@@ -164,7 +164,7 @@ $books = $table->showAll();
             <div class="row g-3 mb-3">
               <div class="col-md-6">
                 <label for="category_id" class="form-label fw-semibold">Category</label>
-                <select name="category_id" id="category_id" class="form-select form-control" required>
+                <select name="category_id" id="category_id" class="form-select form-control" >
                   <option value="">-- Select Category --</option>
                   <?php foreach ($categories as $category): ?>
                     <option value="<?php echo htmlspecialchars($category->id); ?>">
@@ -176,7 +176,7 @@ $books = $table->showAll();
 
               <div class="col-md-6">
                 <label for="author_id" class="form-label fw-semibold">Author</label>
-                <select name="author_id" id="author_id" class="form-select form-control" required>
+                <select name="author_id" id="author_id" class="form-select form-control" >
                   <option value="">-- Select Author --</option>
                   <?php foreach ($authors as $author): ?>
                     <option value="<?php echo htmlspecialchars($author->id); ?>">
@@ -190,36 +190,36 @@ $books = $table->showAll();
             <div class="row g-3 mb-3">
               <div class="col-md-6">
                 <label for="title" class="form-label fw-semibold">Book Title</label>
-                <input type="text" name="title" id="title" class="form-control" placeholder="Enter book title" required>
+                <input type="text" name="title" id="title" class="form-control" placeholder="Enter book title">
               </div>
 
               <div class="col-md-6">
                 <label for="publisher" class="form-label fw-semibold">Publisher</label>
-                <input type="text" name="publisher" id="publisher" class="form-control" placeholder="Enter publisher" required>
+                <input type="text" name="publisher" id="publisher" class="form-control" placeholder="Enter publisher">
               </div>
             </div>
 
             <div class="row g-3 mb-3">
               <div class="col-md-6">
                 <label for="published_date" class="form-label fw-semibold">Published Date</label>
-                <input type="date" name="published_date" id="published_date" class="form-control" required>
+                <input type="date" name="published_date" id="published_date" class="form-control">
               </div>
 
               <div class="col-md-6">
                 <label for="book_photo" class="form-label fw-semibold">Book Cover (Photo)</label>
-                <input type="file" id="photo" name="photo" class="form-control" accept="image/*" required>
+                <input type="file" id="photo" name="photo" class="form-control" accept="image/*">
                 <small class="text-muted">Max: 5MB (JPG, PNG, GIF)</small>
               </div>
             </div>
 
             <div class="mb-3">
               <label for="description" class="form-label fw-semibold">Description</label>
-              <textarea name="description" id="description" class="form-control" rows="3" placeholder="Short book description" required></textarea>
+              <textarea name="description" id="description" class="form-control" rows="3" placeholder="Short book description"></textarea>
             </div>
 
             <div class="mb-4">
               <label for="book_pdf" class="form-label fw-semibold">Upload Book PDF</label>
-              <input type="file" id="pdf" name="pdf" class="form-control" accept="application/pdf" required>
+              <input type="file" id="pdf" name="pdf" class="form-control" accept="application/pdf">
               <small class="text-muted">Max: 20MB (PDF only)</small>
             </div>
 
@@ -237,8 +237,78 @@ $books = $table->showAll();
       <!--end::App Content-->
     </main>
     <!--end::App Main-->
-  </div> 
+  </div>
   <?php include("footer.php"); ?>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.querySelector("form");
+      const photoInput = document.getElementById("photo");
+      const pdfInput = document.getElementById("pdf");
+
+      form.addEventListener("submit", function(e) {
+        let errors = [];
+
+        // Validate required fields
+        const category = document.getElementById("category_id").value.trim();
+        const author = document.getElementById("author_id").value.trim();
+        const title = document.getElementById("title").value.trim();
+        const publisher = document.getElementById("publisher").value.trim();
+        const publishedDate = document.getElementById("published_date").value.trim();
+        const description = document.getElementById("description").value.trim();
+
+        if (!category) errors.push("Please select a category.");
+        if (!author) errors.push("Please select an author.");
+        if (!title) errors.push("Book title is required.");
+        if (!publisher) errors.push("Publisher is required.");
+        if (!publishedDate) errors.push("Published date is required.");
+        if (!description) errors.push("Description is required.");
+
+        // Validate image file
+        if (photoInput.files.length === 0) {
+          errors.push("Please upload a book cover photo.");
+        } else {
+          const photo = photoInput.files[0];
+          const allowedImageTypes = ["image/jpeg", "image/png", "image/gif"];
+          if (!allowedImageTypes.includes(photo.type)) {
+            errors.push("Photo must be JPG, PNG, or GIF.");
+          }
+          if (photo.size > 5 * 1024 * 1024) {
+            errors.push("Photo must be smaller than 5MB.");
+          }
+        }
+
+        // Validate PDF file
+        if (pdfInput.files.length === 0) {
+          errors.push("Please upload the book PDF.");
+        } else {
+          const pdf = pdfInput.files[0];
+          if (pdf.type !== "application/pdf") {
+            errors.push("Uploaded file must be a PDF.");
+          }
+          if (pdf.size > 20 * 1024 * 1024) {
+            errors.push("PDF must be smaller than 20MB.");
+          }
+        }
+
+        // Display errors if any
+        const existingAlert = document.querySelector(".js-validation-alert");
+        if (existingAlert) existingAlert.remove();
+
+        if (errors.length > 0) {
+          e.preventDefault();
+          const alertBox = document.createElement("div");
+          alertBox.className = "alert alert-danger js-validation-alert";
+          alertBox.innerHTML = "*" + errors.join("<br> *");
+          form.parentElement.insertBefore(alertBox, form);
+          window.scrollTo({
+            top: alertBox.offsetTop - 20,
+            behavior: "smooth"
+          });
+        }
+      });
+    });
+  </script>
+
 </body>
 <!--end::Body-->
 

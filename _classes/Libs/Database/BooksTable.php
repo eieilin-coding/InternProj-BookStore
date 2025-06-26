@@ -45,6 +45,19 @@ class BooksTable
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function showDetial($id)
+    {
+      $statement = $this->db->prepare("SELECT b.id, b.title, a.name AS author, 
+        c.name AS category, b.photo, b.file, FROM books b      
+        LEFT JOIN authors a ON b.author_id = a.id
+        LEFT JOIN categories c ON b.category_id = c.id  
+        WHERE b.id = :id ");
+
+        $statement->execute(['id' => $id]);
+
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function showAllAdmin($limit = 10, $offset = 0)
     {
         $statement = $this->db->prepare("SELECT b.id, b.title, a.name AS author, 

@@ -22,7 +22,7 @@ $users = $table->all();
 $table = new BooksTable(new MySQL);
 $books = $table->showAll();
 
-$limit = 4;
+$limit = 8;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
@@ -67,16 +67,21 @@ $total_pages = ceil($total / $limit);
             width: 100%;
             height: 350px;
             /* object-fit: cover; */
-        } 
+        }
 
         @media only screen and (max-width:600px) {
-            .book-card-img{
-                height :400px;
+            .book-card-img {
+                height: 400px;
                 width: 100%;
             }
         }
 
-         
+        div .book img:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+            transition: transform 0.5s;
+        }
+
         /*
         @media (min-width: 992px) {
             .book-card-img {
@@ -200,7 +205,7 @@ $total_pages = ceil($total / $limit);
         <div class="row">
             <?php foreach ($books as $book): ?>
                 <div class="col-12 col-md-6 col-lg-3 mb-4">
-                    <div class="card h-100 shadow-sm d-flex flex-column">
+                    <div class="card h-100 shadow-sm d-flex flex-column book">
                         <img src="_admins/photos/<?= htmlspecialchars($book->photo) ?>" class=" book-card-img"
                             style="max-width: 100%,height:350px;" class="img-fluid rounded shadow" loading="lazy" alt="<?= htmlspecialchars($book->title) ?>">
                         <div class="card-body d-flex flex-column justify-content-center">

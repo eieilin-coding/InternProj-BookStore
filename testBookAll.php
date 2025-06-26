@@ -176,6 +176,7 @@ $total_pages = ceil($total / $limit);
                   <td>
                     <div class="btn-group">
                       <a href="testBookUpdF.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-primary">Update</a>
+                      <a href="bookDetailAdmin.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-info">View</a>
                       <?php if ($book->temp_delete): ?>
                         <a href="_admins/showBook.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-warning" onclick="return confirm('Are you sure?')">Hide</a>
                       <?php else: ?>

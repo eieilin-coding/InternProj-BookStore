@@ -1,19 +1,20 @@
 <?php
 
 include("../vendor/autoload.php");
+include("../db_config.php");
 
 use Helpers\HTTP;
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bookstore";
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "bookstore";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// $conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
 
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $photo_name = $_FILES['photo']['name'];

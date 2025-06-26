@@ -1,0 +1,104 @@
+/* Modal Content Enhancements */
+.modal-content {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(104, 104, 104, 0.15);
+  border: none;
+  background-color: #ffffff;
+}
+
+/* Modal Header */
+.modal-header {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 1.5rem;
+  background-color: #8ec3f8;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #555;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+/* Modal Footer */
+.modal-footer {
+  border-top: 1px solid #e5e5e5;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Buttons */
+.modal-footer .btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-footer .btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #0b5ed7;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.modal-footer .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #5c636a;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* Close Button */
+.btn-close {
+  filter: brightness(0.5);
+}
+.btn-close:hover {
+  filter: brightness(0.2);
+}
+.modal.fade .modal-dialog {
+  /* transition: transform 0.3s ease-out; */
+  transform: translateY(-20px);
+}
+
+.modal.show .modal-dialog {
+  transform: translateY(0);
+}
+.modal-backdrop {
+    background-color: rgba(90, 88, 88, 0.2) !important;  /* Light semi-transparent background */
+}
+
+
+

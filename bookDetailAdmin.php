@@ -4,22 +4,63 @@ include("header.php");
 
 require_once 'db_config.php';
 
-use Libs\Database\MySQL;
-use Libs\Database\CategoriesTable;
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die('Invalid Book ID');
+}
 
-$table = new CategoriesTable(new MySQL);
-$categories = $table->showAll();
+$book_id = intval($_GET['id']);
 
-session_start();
-$errors = $_SESSION['authorCreate_errors'] ?? [];
-$old = $_SESSION['old_data'] ?? [];
-unset($_SESSION['authorCreate_errors'], $_SESSION['old_data']);
+$sql = "SELECT b.*, a.name AS author_name, c.name AS category_name 
+        FROM books b 
+        JOIN authors a ON b.author_id = a.id 
+        JOIN categories c ON b.category_id = c.id 
+        WHERE b.id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $book_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows == 0) {
+    die("Book not found.");
+}
+
+$book = $result->fetch_assoc();
 ?>
 <!doctype html>
 <html lang="en">
 <!--begin::Head-->
 
 <head>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        #download .btn i {
+            margin-right: 8px;
+        }
+
+        .book-cover {
+
+            width: 100%;
+            height: 460px;
+            /* max-height: 500px;
+            min-height: 300px; 
+            Don't use */
+        }
+
+        .book-details {
+            padding-top: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .book-details {
+                padding-top: 0;
+                padding-left: 1rem;
+            }
+        }
+    </style>
 
 </head>
 
@@ -65,7 +106,6 @@ unset($_SESSION['authorCreate_errors'], $_SESSION['old_data']);
                 <!--end::Brand Link-->
             </div>
             <!--end::Sidebar Brand-->
-
             <!--begin::Sidebar Wrapper-->
             <div class="sidebar-wrapper">
                 <nav class="mt-2">
@@ -84,7 +124,7 @@ unset($_SESSION['authorCreate_errors'], $_SESSION['old_data']);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="testBookAll.php" class="nav-link">
+                            <a href="testBookAll.php" class="nav-link active">
                                 <i class="fas fa-book me-2"></i>
                                 <p>
                                     Books
@@ -100,7 +140,7 @@ unset($_SESSION['authorCreate_errors'], $_SESSION['old_data']);
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="testAuthorAll.php" class="nav-link active">
+                            <a href="testAuthorAll.php" class="nav-link">
                                 <i class="fas fa-user-tie me-2"></i>
                                 <p>
                                     Authors
@@ -135,8 +175,8 @@ unset($_SESSION['authorCreate_errors'], $_SESSION['old_data']);
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
-                                <li class="breadcrumb-item"><a href="testAuthorAll.php">Author List</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Create Author</li>
+                                <li class="breadcrumb-item"><a href="testBookAll.php">Book</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">View Details</li>
                             </ol>
                         </div>
                     </div>
@@ -148,71 +188,48 @@ unset($_SESSION['authorCreate_errors'], $_SESSION['old_data']);
                 <!--begin::Container-->
                 <!-- <div class="container-fluid"> -->
                 <!-- Info boxes -->
-                <div class="container mt-0 justify-content-center align-items-center" style="max-width: 500px;">
-                    <div class="card shadow mt-4">
-                        <div class="card-body">
-                            <h1 class="h4 mb-4 text-center">Create Author</h1>
+                <div class="container my-0 my-md-5">
+                    <div class="row g-4">
+                        <!-- Book Image -->
+                        <div class="col-12 col-md-5">
+                            <img src="_admins/photos/<?= htmlspecialchars($book['photo']) ?>"
+                                alt="<?= htmlspecialchars($book['title']) ?>"
+                                class="img-fluid rounded shadow book-cover">
+                        </div>
 
-                            <?php if (isset($_GET['author'])): ?>
-                                <div class="alert alert-info text-center">
-                                    Successfully created author
-                                </div>
-                            <?php endif ?>
+                        <!-- Book Details -->
+                        <div class="col-12 col-md-7 book-details justify-content-center">
+                            <div class="mb-3">
+                                <p class="mb-1"><strong>Title:</strong> <?= htmlspecialchars($book['title']) ?></p>
+                                <p class="mb-1"><strong>Author:</strong> <?= htmlspecialchars($book['author_name']) ?></p>
+                                <p class="mb-1"><strong>Category:</strong> <?= htmlspecialchars($book['category_name']) ?></p>
+                                <p class="mb-3"><strong>Published Date:</strong> <?= htmlspecialchars(date('F d, Y', strtotime($book['published_date']))) ?></p>
 
-                            <!-- <?php if (!empty($errors)): ?>
-                                <div class="alert alert-danger">
-                                    <ul class="mb-0">
-                                        <?php foreach ($errors as $error): ?>
-                                            <li><?= htmlspecialchars($error) ?></li>
-                                        <?php endforeach ?>
-                                    </ul>
-                                </div>
-                            <?php endif ?> -->
+                            </div>
 
-                            <form action="_admins/authorCreate.php" method="post" class="mb-2">
-                                <div class="mb-4">
-                                    <input type="text" class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>" 
-                                    name="name" placeholder="Name" value="<?= htmlspecialchars($old['name'] ?? '') ?>">
-                                    <?php if (isset($errors['name'])): ?>
-                                        <div class="invalid-feedback"><?= htmlspecialchars($errors['name']) ?></div>
-                                    <?php endif ?>
-                                </div>
-                                <div class="mb-4">
-                                    <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" 
-                                    name="email" placeholder="Email" value="<?= htmlspecialchars($old['email'] ?? '') ?>">
-                                    <?php if (isset($errors['email'])): ?>
-                                        <div class="invalid-feedback"><?= htmlspecialchars($errors['email']) ?></div>
-                                    <?php endif ?>
-                                </div>
-                                <div class="mb-4">
-                                    <input type="text" class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>" 
-                                    name="phone" placeholder="Phone" value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
-                                    <?php if (isset($errors['phone'])): ?>
-                                        <div class="invalid-feedback"><?= htmlspecialchars($errors['phone']) ?></div>
-                                    <?php endif ?>
-                                </div>
-                                <div class="mb-4">
-                                    <input type="text" class="form-control" 
-                                    name="address" placeholder="Address" value="<?= htmlspecialchars($old['address'] ?? '') ?>">                    
-                                </div>
+                            <hr>
 
-                                <div class="d-flex justify-content-center gap-3">
-                                    <button type="submit" class="btn btn-primary" name="create">Create</button>
-                                    <a type="button" class="btn btn-secondary" href="testAuthorAll.php">Cancel</a>
-                                </div>
-                            </form>
+                            <div class="mb-4">
+                                <p class="lead">Description:</p>
+                                <p><?= nl2br(htmlspecialchars($book['description'])) ?></p>
+                            </div>
+                            <a href="_admins/files/<?= htmlspecialchars($book['file']) ?>" class="d-block text-decoration-none my-2">
+                                <i class="fas fa-file-pdf text-danger mr-2"></i>
+                                <?= htmlspecialchars($book['title']) ?>.pdf
+                            </a>
+                            <p id="count"><strong>Downloads:</strong> <?= $book['download_count'] ?></p>
                         </div>
                     </div>
                 </div>
+
             </div>
             <!--end::Container-->
     </div>
     <!--end::App Content-->
     </main>
     <!--end::App Main-->
-    <?php include("footer.php"); ?>
 
-    
+    <?php include("footer.php"); ?>
 </body>
 <!--end::Body-->
 

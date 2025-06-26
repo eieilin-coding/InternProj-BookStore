@@ -55,9 +55,10 @@ $book = $result->fetch_assoc();
         .book-cover {
         
             width: 100%;
-            height: auto;
-            max-height: 500px;
-            min-height: 300px;
+            height: 500px;
+            /* max-height: 500px;
+            min-height: 300px; 
+            Don't use */ 
         }
 
         .book-details {
@@ -97,7 +98,7 @@ $book = $result->fetch_assoc();
             </div>
 
             <!-- Book Details -->
-            <div class="col-12 col-md-7 book-details">
+            <div class="col-12 col-md-7 book-details justify-content-center">
                 <h1 class="h2 mb-3"><?= htmlspecialchars($book['title']) ?></h1>
                 <div class="mb-3">
                     <p class="mb-1"><strong>Author:</strong> <?= htmlspecialchars($book['author_name']) ?></p>
@@ -112,11 +113,12 @@ $book = $result->fetch_assoc();
                     <p><?= nl2br(htmlspecialchars($book['description'])) ?></p>
                 </div>
 
-                <div class="d-flex flex-column flex-sm-row gap-3 mb-4" id="download">
-                    <a href="download.php?id=<?= $book['id'] ?>" class="btn btn-danger px-4 py-2">
+                <div class="d-flex gap-3 flex-column flex-sm-row mb-4 " style="width:fit-content"  id="download">
+                <!-- <div class="d-flex flex-column flex-sm-row gap-3 mb-4" id="download"> -->
+                    <a href="download.php?id=<?= $book['id'] ?>" class="btn btn-danger px-4 py-2 justify-content-center">
                         <i class="fa-solid fa-circle-down"></i> Download PDF
                     </a>
-                    <a href="index.php" class="btn btn-secondary px-4 py-2">Back to Books</a>
+                    <a href="index.php" class="btn btn-secondary px-4 py-2 justify-content-center">Back to Books</a>
                 </div>
 
                 <p id="count"><strong>Downloads:</strong> <?= $book['download_count'] ?></p>
