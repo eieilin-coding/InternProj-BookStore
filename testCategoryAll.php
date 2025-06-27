@@ -8,7 +8,15 @@ use Libs\Database\MySQL;
 use Libs\Database\CategoriesTable;
 
 $table = new CategoriesTable(new MySQL);
-$categories = $table->showAll();
+// $categories = $table->showAll();
+
+$limit = 8;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$categories = $table->showAll($limit, $offset);
+$total = $table->totalCount();
+$total_pages = ceil($total / $limit);
 
 session_start();
 $errors = $_SESSION['category_errors'] ?? [];
@@ -169,13 +177,13 @@ unset($_SESSION['category_errors'], $_SESSION['old_data']);
           <div class="table-responsive">
             <table class="table table-striped table-bordered">
               <tr>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
                 <th>Categories</th>
                 <th>Action</th>
               </tr>
               <?php foreach ($categories as $category): ?>
                 <tr>
-                  <td><?= $category->id ?></td>
+                  <!-- <td><?= $category->id ?></td> -->
                   <td><?= $category->name ?></td>
                   <td>
                     <div class="btn-group">
@@ -198,6 +206,15 @@ unset($_SESSION['category_errors'], $_SESSION['old_data']);
                 </tr>
               <?php endforeach ?>
             </table>
+             <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                  <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                  </li>
+                <?php endfor; ?>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>

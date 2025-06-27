@@ -29,10 +29,21 @@ class CategoriesTable
         }
     }
 
-    public function showAll()
+    public function showAll($limit = 10, $offset = 0)
     {
-        $statement = $this->db->query("SELECT * FROM categories ORDER BY name");
-        return $statement->fetchAll();
+        $statement = $this->db->prepare("SELECT * FROM categories ORDER BY id DESC LIMIT :limit OFFSET :offset ");
+        $statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function totalCount()
+    {
+        $statement = $this->db->query("SELECT COUNT(*) as total FROM categories");
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
     }
 
     public function delete($id)

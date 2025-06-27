@@ -30,7 +30,7 @@ class AuthorsTable
 
     public function showAll($limit = 10, $offset = 0)
     {
-        $statement = $this->db->prepare("SELECT * FROM authors LIMIT :limit OFFSET :offset");
+        $statement = $this->db->prepare("SELECT * FROM authors ORDER BY id DESC LIMIT :limit OFFSET :offset ");
         $statement->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
         $statement->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
         $statement->execute();

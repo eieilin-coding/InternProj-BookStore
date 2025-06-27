@@ -156,7 +156,7 @@ $total_pages = ceil($total / $limit);
           <div class="table-responsive">
             <table class="table table-striped table-bordered">
               <tr>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
                 <th>Title</th>
                 <th>Author</th>
                 <th>Category</th>
@@ -167,7 +167,7 @@ $total_pages = ceil($total / $limit);
 
               <?php foreach ($books as $book): ?>
                 <tr>
-                  <td><?= htmlspecialchars($book->id) ?></td>
+                  <!-- <td><?= htmlspecialchars($book->id) ?></td> -->
                   <td><?= htmlspecialchars($book->title) ?></td>
                   <td><?= htmlspecialchars($book->author) ?></td>
                   <td><?= htmlspecialchars($book->category) ?></td>
@@ -178,9 +178,9 @@ $total_pages = ceil($total / $limit);
                       <a href="testBookUpdF.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-primary">Update</a>
                       <a href="bookDetailAdmin.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-info">View</a>
                       <?php if ($book->temp_delete): ?>
-                        <a href="_admins/showBook.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-warning" onclick="return confirm('Are you sure?')">Hide</a>
+                        <a href="_admins/showBook.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-warning text-black" onclick="return confirm('Are you sure?')">Hide</a>
                       <?php else: ?>
-                        <a href="_admins/hideBook.php?id=<?= $book->id ?>" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure?')">Show</a>
+                        <a href="_admins/hideBook.php?id=<?= $book->id ?>" class="btn btn-sm btn-success text-white" onclick="return confirm('Are you sure?')">Show</a>
                       <?php endif; ?>
                       <a href="_admins/bookDel.php?id=<?= $book->id ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</a>
                     </div>

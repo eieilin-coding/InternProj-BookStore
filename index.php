@@ -210,7 +210,7 @@ $total_pages = ceil($total / $limit);
                             style="max-width: 100%,height:350px;" class="img-fluid rounded shadow" loading="lazy" alt="<?= htmlspecialchars($book->title) ?>">
                         <div class="card-body d-flex flex-column justify-content-center">
                             <h6 class="card-title"><?= htmlspecialchars($book->title) ?></h6>
-                            <a href="bookDetail.php?id=<?= $book->id ?>" class="btn btn-outline-primary mt-auto" style="width: 115px;">View Details</a>
+                            <a href="bookDetail.php?id=<?= $book->id ?>" class="btn btn-outline-primary mt-2" style="width: 115px;">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -218,11 +218,13 @@ $total_pages = ceil($total / $limit);
         </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                        <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"><?= $i ?></a>
-                    </li>
-                <?php endfor; ?>
+                <?php if ($total_pages > 1) : ?>
+                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                        <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                            <a class="page-link" href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+                <?php endif; ?>
             </ul>
         </nav>
     </div>

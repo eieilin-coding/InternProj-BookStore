@@ -5,7 +5,7 @@ include("header.php");
 use Helpers\HTTP;
 
 session_start();
-if (!isset($_SESSION['user']) || $_SESSION['user']->role_id != 3) {
+if (!isset($_SESSION['user']) || $_SESSION['user']->role_id == 1) {
   HTTP::redirect("/index.php", "error=unauthorized");
   exit;
 }

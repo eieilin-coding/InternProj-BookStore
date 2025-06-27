@@ -160,7 +160,7 @@ $total_pages = ceil($total / $limit);
           <div class="table-responsive">
             <table class="table table-striped table-bordered">
               <tr>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -170,7 +170,7 @@ $total_pages = ceil($total / $limit);
               </tr>
               <?php foreach ($authors as $author): ?>
                 <tr>
-                  <td><?= $author->id ?></td>
+                  <!-- <td><?= $author->id ?></td> -->
                   <td><?= $author->name ?></td>
                   <td><?= $author->email ?></td>
                   <td><?= $author->phone ?></td>
