@@ -6,6 +6,12 @@ use Libs\Database\MySQL;
 use Libs\Database\AuthorsTable;
 use Helpers\HTTP;
 
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']->role_id == 1) {
+  HTTP::redirect("/index.php", "error=unauthorized");
+  exit;
+}
+
 // Validate the ID parameter
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     HTTP::redirect("/testAuthorAll.php", "error=invalid_id");

@@ -1,6 +1,26 @@
 <?php
 include("vendor/autoload.php");
 
+session_start();
+
+use Libs\Database\MySQL;
+use Libs\Database\UsersTable;
+use Helpers\HTTP;
+
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']->id;
+
+    $table = new UsersTable(new MySQL);
+    $user = $table->findById($userId);
+
+    if ($user && $user->suspended) {
+        // User is suspended — log out
+        unset($_SESSION['user']);
+        setcookie("remember_token", "", time() - 3600, "/"); // also clear remember-me
+
+        HTTP::redirect("/signIn.php", "suspended=account");
+    }
+}
 require_once 'db_config.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {

@@ -6,8 +6,15 @@ use Libs\Database\MySQL;
 use Libs\Database\UsersTable;
 use Helpers\Auth;
 
+use Helpers\HTTP;
+
 //This code is needed. Don't delete it!
 $auth = Auth::check();
+if (!isset($_SESSION['user']) || $_SESSION['user']->role_id == 1) {
+  HTTP::redirect("/index.php", "error=unauthorized");
+  exit;
+}
+
 
 $table = new UsersTable(new MySQL);
 // $users = $table->all();

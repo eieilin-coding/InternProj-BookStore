@@ -123,4 +123,44 @@ class UsersTable
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['total'] ?? 0;
     }
+
+    public function saveRememberToken($user_id, $token)
+{
+    try {
+        $statement = $this->db->prepare("UPDATE users SET remember_token = :token WHERE id = :id");
+        $statement->execute([
+            'token' => $token,
+            'id' => $user_id
+        ]);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        exit();
+    }
+}
+
+public function findByToken($token)
+{
+    try {
+        $statement = $this->db->prepare("SELECT * FROM users WHERE remember_token = :token");
+        $statement->execute(['token' => $token]);
+        return $statement->fetch();
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        exit();
+    }
+}
+
+public function findById($id)
+{
+    try {
+        $statement = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $statement->execute(['id' => $id]);
+        return $statement->fetch();
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+        exit();
+    }
+}
+
+
 }

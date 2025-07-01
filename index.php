@@ -1,13 +1,35 @@
 <?php
-include("vendor/autoload.php");
 
 session_start();
 
+use Libs\Database\UsersTable;
 use Libs\Database\MySQL;
 use Libs\Database\CategoriesTable;
 use Libs\Database\AuthorsTable;
 use Libs\Database\BooksTable;
-use Libs\Database\UsersTable;
+use Helpers\HTTP;
+
+include("vendor/autoload.php");
+
+
+
+/* ======= Check for Suspended Account ======= */
+
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']->id;
+
+    $table = new UsersTable(new MySQL);
+    $user = $table->findById($userId);
+
+    if ($user && $user->suspended) {
+        // User is suspended — log out
+        unset($_SESSION['user']);
+        setcookie("remember_token", "", time() - 3600, "/"); // also clear remember-me
+
+        HTTP::redirect("/signIn.php", "suspended=account");
+    }
+}
+
 
 $table = new CategoriesTable(new MySQL);
 $categories = $table->showAll();
@@ -45,6 +67,8 @@ if ($search !== '') {
 }
 $total_pages = ceil($total / $limit);
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

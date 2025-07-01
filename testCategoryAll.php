@@ -4,6 +4,14 @@ include("header.php");
 
 require_once 'db_config.php';
 
+use Helpers\HTTP;
+
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']->role_id == 1) {
+  HTTP::redirect("/index.php", "error=unauthorized");
+  exit;
+}
+
 use Libs\Database\MySQL;
 use Libs\Database\CategoriesTable;
 
@@ -18,7 +26,7 @@ $categories = $table->showAll($limit, $offset);
 $total = $table->totalCount();
 $total_pages = ceil($total / $limit);
 
-session_start();
+// session_start();
 $errors = $_SESSION['category_errors'] ?? [];
 $old = $_SESSION['old_data'] ?? [];
 unset($_SESSION['category_errors'], $_SESSION['old_data']);
